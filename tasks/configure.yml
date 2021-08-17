@@ -1,0 +1,23 @@
+---
+- name: Setup alternatives to openjdk java
+  alternatives:
+    name: "{{ item }}"
+    link: "/usr/bin/{{ item }}"
+    path: "{{ openjdk_java_home }}/bin/{{ item }}"
+  loop: "{{ openjdk_alternatives }}"
+  loop_control:
+    label: "{{ item }}"
+  when:
+    - openjdk_state == "present"
+    - openjdk_update_alternatives | bool
+
+- name: Remove symlinks created by alternatives module
+  file:
+    path: "/usr/bin/{{ item }}"
+    state: absent
+  loop: "{{ openjdk_alternatives }}"
+  loop_control:
+    label: "{{ item }}"
+  when:
+    - openjdk_state == "absent"
+    - openjdk_update_alternatives | bool
