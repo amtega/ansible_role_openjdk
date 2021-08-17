@@ -1,0 +1,21 @@
+---
+
+- block:
+
+    - name: Download and unarchive openjdk binaries
+      include_role:
+        name: amtega.artifact
+      vars:
+        override:
+          download: "{{ not openjdk_check_installed_result.stat.exists }}"
+          unarchive: yes
+          unarchive_remove: yes
+          force: yes
+          no_log: no
+        artifact: >-
+          {{ openjdk_artifact
+             | default(openjdk_default_artifact)
+             | default({})
+             | combine(override) }}
+
+  when: openjdk_state == 'present'
