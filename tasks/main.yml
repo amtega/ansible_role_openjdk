@@ -1,9 +1,16 @@
 ---
+
 # Role tasks
+
 - block:
-    - import_tasks: check.yml
-    - import_tasks: install.yml
-    - import_tasks: configure.yml
-    - import_tasks: uninstall.yml
+    - include_tasks: check.yml
+
+    - include_tasks: install.yml
+      when: openjdk_state == "present"
+      
+    - include_tasks: configure.yml
+
+    - include_tasks: uninstall.yml
+      when: openjdk_state == "absent"
   tags:
     - role::openjdk

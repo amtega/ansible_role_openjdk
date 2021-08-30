@@ -1,5 +1,6 @@
 ---
-- name: Setup alternatives to openjdk java
+
+- name: Setup alternatives to OpenJDK java
   alternatives:
     name: "{{ item }}"
     link: "/usr/bin/{{ item }}"

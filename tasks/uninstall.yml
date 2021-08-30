@@ -1,20 +1,17 @@
 ---
 
-- block:
-    - name: Remove openjdk from system
-      file:
-        path: "{{ openjdk_java_home }}"
-        state: absent
+- name: Remove OpenJDK from system
+  file:
+    path: "{{ openjdk_java_home }}"
+    state: absent
 
-    - name: Remove openjdk artifact facts
-      include_role:
-        name: amtega.artifact
-      vars:
-        override:
-          state: absent
-        artifact: >-
-          {{ openjdk_artifact
-             | default(openjdk_default_artifact)
-             | combine(override) }}
-
-  when: openjdk_state == 'absent'
+- name: Remove OpenJDK artifact facts
+  include_role:
+    name: amtega.artifact
+  vars:
+    override:
+      state: absent
+    artifact: >-
+      {{ openjdk_artifact
+         | default(openjdk_default_artifact)
+         | combine(override) }}
