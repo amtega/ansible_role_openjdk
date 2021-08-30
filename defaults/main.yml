@@ -16,7 +16,8 @@ openjdk_base_dir: /opt
 
 openjdk_update_alternatives: yes
 
-# list of binaries you want manage with `alternatives` module
+# List of binaries you want manage with `alternatives` module
+
 openjdk_alternatives:
   - java
   - javac
