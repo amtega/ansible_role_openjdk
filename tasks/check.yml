@@ -1,12 +1,13 @@
 ---
-# Role previus check
-- block:
+
+- when: openjdk_artifact is undefined
+  block:
     - name: Assert version to download is valid
       assert:
         that:
           - openjdk_check_version_exists
 
-    - name: Create default artifact
+    - name: Setup default artifact
       set_fact:
         openjdk_default_artifact:
           id: openjdk_bins
@@ -23,22 +24,17 @@
         openjdk_java_home: >-
           {{ openjdk_base_dir }}/jdk-{{ openjdk_effective_version }}
 
-  when: openjdk_artifact is undefined
-
-- block:
-    - name: Extract openjdk version from artifact
-      set_fact:
-        openjdk_artifact_version: >-
-          {{ openjdk_artifact.file.split('-')[1]).split('_')[0] }}
-
+- when: openjdk_artifact is defined
+  block:
     - name: Set fact with JAVA_HOME
       set_fact:
         openjdk_java_home: >-
           {{ openjdk_base_dir }}/jdk-{{ openjdk_artifact_version }}
+      vars:
+        openjdk_artifact_version: >-
+          {{ openjdk_artifact.file.split('-')[1]).split('_')[0] }}
 
-  when: openjdk_artifact is defined
-
-- name: Check if openjdk version is already deployed
+- name: Check if OpenJDK version is already deployed
   stat:
     path: "{{ openjdk_java_home }}"
   register: openjdk_check_installed_result
