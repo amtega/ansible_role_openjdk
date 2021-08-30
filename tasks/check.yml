@@ -1,0 +1,44 @@
+---
+# Role previus check
+- block:
+    - name: Assert version to download is valid
+      assert:
+        that:
+          - openjdk_check_version_exists
+
+    - name: Create default artifact
+      set_fact:
+        openjdk_default_artifact:
+          id: openjdk_bins
+          type: https
+          host: "{{ openjdk_download_host }}"
+          path: "{{ openjdk_download_path }}"
+          file: "{{ openjdk_download_file }}"
+          dest: "{{ openjdk_base_dir }}"
+          timeout: 120
+          validate_certs: yes
+
+    - name: Set fact with JAVA_HOME
+      set_fact:
+        openjdk_java_home: >-
+          {{ openjdk_base_dir }}/jdk-{{ openjdk_effective_version }}
+
+  when: openjdk_artifact is undefined
+
+- block:
+    - name: Extract openjdk version from artifact
+      set_fact:
+        openjdk_artifact_version: >-
+          {{ openjdk_artifact.file.split('-')[1]).split('_')[0] }}
+
+    - name: Set fact with JAVA_HOME
+      set_fact:
+        openjdk_java_home: >-
+          {{ openjdk_base_dir }}/jdk-{{ openjdk_artifact_version }}
+
+  when: openjdk_artifact is defined
+
+- name: Check if openjdk version is already deployed
+  stat:
+    path: "{{ openjdk_java_home }}"
+  register: openjdk_check_installed_result

@@ -1,2 +1,36 @@
 ---
-# Role default lower priority variables
+# Version of openjdk java to deploy. You can use the keyword latest to install
+# the latest available version
+
+openjdk_version: latest
+
+# State of openjdk java. Can be present or absent
+
+openjdk_state: present
+
+# Openjdk base install dir
+
+openjdk_base_dir: /opt
+
+# Manage symbolic links using the `alternatives` module
+
+openjdk_update_alternatives: yes
+
+# list of binaries you want manage with `alternatives` module
+openjdk_alternatives:
+  - java
+  - javac
+
+# This role download de deisred version from https://jdk.java.net/archive/.
+# By default, create a default artifact with download the artifact that match
+# with `openjdk_version` and store it `openjdk-default-artifact` variable.
+#
+# If you want install from another site or a version not included in the version
+# archive page, you must provide an artifact variable with the download info for
+# .tar.gz binary you want deploy.
+#
+# Take a look to `amtega.artifact` role documentation to known about supported
+# types of artifacts, their specific settings and how to configure a proxy if
+# necessary
+
+#openjdk_artifact:
