@@ -22,9 +22,9 @@ openjdk_alternatives:
   - java
   - javac
 
-# This role download de deisred version from https://jdk.java.net/archive/.
-# By default, create a default artifact with download the artifact that match
-# with `openjdk_version` and store it `openjdk-default-artifact` variable.
+# By default, the role setups a default artifact that downloads from
+# https://jdk.java.net/archive the desired version (openjdk_version) and stores
+# this artifact in openjdk_default_artifact variable.
 #
 # If you want install from another site or a version not included in the version
 # archive page, you must provide an artifact variable with the download info for
