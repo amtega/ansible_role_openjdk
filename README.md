@@ -9,7 +9,7 @@ A list of all the default variables for this role is available in `defaults/main
 The role setups the following facts:
 
 - `openjdk_java_home`: home path of the deployed openjdk java
-- `openjdk_java_default_artifact`: dict with the default artifact for downloading oracle java. Only available when download artifact is not defined.
+- `openjdk_java_default_artifact`: dict with the default artifact for downloading openjdk java. Only available when download artifact is not defined.
 
 ## Example Playbook
 
