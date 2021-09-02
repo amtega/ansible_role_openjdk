@@ -15,24 +15,26 @@
           host: "{{ openjdk_download_host }}"
           path: "{{ openjdk_download_path }}"
           file: "{{ openjdk_download_file }}"
-          dest: "{{ openjdk_base_dir }}"
+          dest: /opt
           timeout: 120
           validate_certs: yes
 
     - name: Set fact with JAVA_HOME
       set_fact:
         openjdk_java_home: >-
-          {{ openjdk_base_dir }}/jdk-{{ openjdk_effective_version }}
+          {{ (openjdk_artifact | default(openjdk_default_artifact)).dest
+             + "/jdk-"
+             ~ openjdk_effective_version }}
 
 - when: openjdk_artifact is defined
   block:
     - name: Set fact with JAVA_HOME
       set_fact:
         openjdk_java_home: >-
-          {{ openjdk_base_dir }}/jdk-{{ openjdk_artifact_version }}
+          {{ openjdk_artifact.dest }}/jdk-{{ openjdk_artifact_version }}
       vars:
         openjdk_artifact_version: >-
-          {{ openjdk_artifact.file.split('-')[1]).split('_')[0] }}
+          {{ openjdk_artifact.file.split('-')[1].split('_')[0] }}
 
 - name: Check if OpenJDK version is already deployed
   stat:

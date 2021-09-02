@@ -35,8 +35,8 @@ openjdk_download_file: >-
 
 openjdk_effective_version: >-
   {{ (openjdk_version == "latest")
-     | ternary((openjdk_download_file.split('-')[1]).split('_')[0],
-                openjdk_version) }}
+     | ternary(openjdk_download_file.split('-')[1].split('_')[0],
+               openjdk_version) }}
 
 openjdk_check_version_exists: >-
   {{ (openjdk_version == 'latest' )
