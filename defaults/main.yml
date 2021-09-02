@@ -8,10 +8,6 @@ openjdk_version: latest
 
 openjdk_state: present
 
-# Openjdk base install dir
-
-openjdk_base_dir: /opt
-
 # Manage symbolic links using the `alternatives` module
 
 openjdk_update_alternatives: yes
