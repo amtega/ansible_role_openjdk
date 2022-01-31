@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.0] - 2022-01-31
+### Added
+- Added `openjdk_directory_mode` variable.
+
 ## [1.2.0] - 2022-01-26
 ### Changed
 - Supported distros. Related to ansible/main#178
