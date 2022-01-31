@@ -16,3 +16,18 @@
          | default(openjdk_default_artifact)
          | default({})
          | combine(override) }}
+
+- name: Setup directory permissions
+  command: >-
+    find {{ openjdk_java_home }}
+    -type d
+    -exec chmod -v {{ openjdk_directory_mode }} \{} \;
+  when: openjdk_directory_mode | string | length > 0
+  register: openjdk_dir_mode_result
+  changed_when: >-
+    openjdk_dir_mode_result.stdout_lines
+    | select("search", "changed from .* to .*")
+    | list
+    | length > 0
+  environment:
+    LANGUAGE: en_US

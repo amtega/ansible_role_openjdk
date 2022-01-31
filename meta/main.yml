@@ -29,6 +29,13 @@ dependencies:
         fedora: 34
         redhat: 7
 
+  - role: amtega.packages
+    vars:
+      packages_os:
+        all:
+          all:
+            findutils: present
+
   - role: amtega.artifact
     tags:
       - never
