@@ -17,11 +17,18 @@
          | default({})
          | combine(override) }}
 
-- name: Setup directory permissions
-  command: >-
+- name: Setup permissions
+  shell: >-
     find {{ openjdk_java_home }}
     -type d
-    -exec chmod -v {{ openjdk_directory_mode }} \{} \;
+    -exec chmod -v {{ openjdk_directory_mode }} \{} \; ;
+    find {{ openjdk_java_home }}
+    -type f
+    -not -path "{{ openjdk_java_home }}/bin/*"
+    -exec chmod -v {{ openjdk_file_mode }} \{} \; ;
+    find {{ openjdk_java_home }}/bin
+    -type f
+    -exec chmod -v {{ openjdk_bin_mode }} \{} \; ;
   when: openjdk_directory_mode | string | length > 0
   register: openjdk_dir_mode_result
   changed_when: >-

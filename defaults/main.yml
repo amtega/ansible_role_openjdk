@@ -22,6 +22,14 @@ openjdk_alternatives:
 
 openjdk_directory_mode: "0755"
 
+# Java home file mode
+
+openjdk_file_mode: "0644"
+
+# Java home binaries mode
+
+openjdk_bin_mode: "0755"
+
 # By default, the role setups a default artifact that downloads from
 # https://jdk.java.net/archive the desired version (openjdk_version) and stores
 # this artifact in openjdk_default_artifact variable.
