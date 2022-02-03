@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.4.1] - 2022-02-04
+### Fixed
+- Fixed changelog.
+
+## [1.4.0] - 2022-02-04
+### Added
+- Added new variables to control directory and file modes.
+
 ## [1.3.0] - 2022-01-31
 ### Added
 - Added `openjdk_directory_mode` variable.
