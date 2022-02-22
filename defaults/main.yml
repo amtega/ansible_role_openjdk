@@ -1,6 +1,9 @@
 ---
 # Version of openjdk java to deploy. You can use the keyword latest to install
 # the latest available version
+#
+# If version specified is 8.X the operating system package will be used and
+# any artifact (see below) will be ignored.
 
 openjdk_version: latest
 

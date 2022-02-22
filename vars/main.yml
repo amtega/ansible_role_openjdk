@@ -12,7 +12,7 @@ openjdk_main_site_content: >-
 openjdk_search_filter: >-
   {{ (openjdk_version == 'latest')
         | ternary("_linux-x64_bin.tar.gz",
-                  "openjdk-" + openjdk_version + "_linux-x64_bin.tar.gz") }}
+                  "openjdk-" ~ openjdk_version + "_linux-x64_bin.tar.gz") }}
 
 openjdk_download_url:  >-
   {{ ((openjdk_main_site_content
@@ -45,6 +45,10 @@ openjdk_check_version_exists: >-
                 | regex_replace("<a", "\n")
                 | regex_replace("</a", "\n")).splitlines()
                 | select("search", "openjdk-"
-                                    + openjdk_version
+                                    ~ openjdk_version
                                     + "_linux-x64_bin.tar.gz")
                                     | list | length > 0) }}
+
+openjdk_version_8: >-
+  {{ openjdk_version is version("1.8.0", ">=")
+     and openjdk_version is version("1.9.0", "<") }}
