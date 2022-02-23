@@ -1,17 +1,30 @@
 ---
 
-- name: Remove OpenJDK from system
-  file:
-    path: "{{ openjdk_java_home }}"
-    state: absent
+- block:
+    - name: Remove OpenJDK from system
+      file:
+        path: "{{ openjdk_java_home }}"
+        state: absent
 
-- name: Remove OpenJDK artifact facts
-  include_role:
-    name: amtega.artifact
-  vars:
-    override:
-      state: absent
-    artifact: >-
-      {{ openjdk_artifact
-         | default(openjdk_default_artifact)
-         | combine(override) }}
+    - name: Remove OpenJDK artifact facts
+      include_role:
+        name: amtega.artifact
+      vars:
+        override:
+          state: absent
+        artifact: >-
+          {{ openjdk_artifact
+             | default(openjdk_default_artifact)
+             | combine(override) }}
+  when: not openjdk_version_8
+
+- block:
+    - name: Uninstall operating system package
+      include_role:
+        name: amtega.packages
+      vars:
+        packages_os:
+          all:
+            all:
+              java-1.8.0-openjdk-headless: absent
+  when: openjdk_version_8

@@ -1,40 +1,53 @@
 ---
 
-- name: Download and unarchive OpenJDK binaries
-  include_role:
-    name: amtega.artifact
-  when: openjdk_state == 'present'
-  vars:
-    override:
-      download: "{{ not openjdk_check_installed_result.stat.exists }}"
-      unarchive: yes
-      unarchive_remove: yes
-      force: yes
-      no_log: no
-    artifact: >-
-      {{ openjdk_artifact
-         | default(openjdk_default_artifact)
-         | default({})
-         | combine(override) }}
+- block:
+    - name: Download and unarchive OpenJDK binaries
+      include_role:
+        name: amtega.artifact
+      when: openjdk_state == 'present'
+      vars:
+        override:
+          download: "{{ not openjdk_check_installed_result.stat.exists }}"
+          unarchive: yes
+          unarchive_remove: yes
+          force: yes
+          no_log: no
+        artifact: >-
+          {{ openjdk_artifact
+             | default(openjdk_default_artifact)
+             | default({})
+             | combine(override) }}
 
-- name: Setup permissions
-  shell: >-
-    find {{ openjdk_java_home }}
-    -type d
-    -exec chmod -v {{ openjdk_directory_mode }} \{} \; ;
-    find {{ openjdk_java_home }}
-    -type f
-    -not -path "{{ openjdk_java_home }}/bin/*"
-    -exec chmod -v {{ openjdk_file_mode }} \{} \; ;
-    find {{ openjdk_java_home }}/bin
-    -type f
-    -exec chmod -v {{ openjdk_bin_mode }} \{} \; ;
-  when: openjdk_directory_mode | string | length > 0
-  register: openjdk_dir_mode_result
-  changed_when: >-
-    openjdk_dir_mode_result.stdout_lines
-    | select("search", "changed from .* to .*")
-    | list
-    | length > 0
-  environment:
-    LANGUAGE: en_US
+    - name: Setup permissions
+      shell: >-
+        find {{ openjdk_java_home }}
+        -type d
+        -exec chmod -v {{ openjdk_directory_mode }} \{} \; ;
+        find {{ openjdk_java_home }}
+        -type f
+        -not -path "{{ openjdk_java_home }}/bin/*"
+        -exec chmod -v {{ openjdk_file_mode }} \{} \; ;
+        find {{ openjdk_java_home }}/bin
+        -type f
+        -exec chmod -v {{ openjdk_bin_mode }} \{} \; ;
+      when: openjdk_directory_mode | string | length > 0
+      register: openjdk_dir_mode_result
+      changed_when: >-
+        openjdk_dir_mode_result.stdout_lines
+        | select("search", "changed from .* to .*")
+        | list
+        | length > 0
+      environment:
+        LANGUAGE: en_US
+  when: not openjdk_version_8
+
+- block:
+    - name: Setup operating system package
+      include_role:
+        name: amtega.packages
+      vars:
+        packages_os:
+          all:
+            all:
+              java-1.8.0-openjdk-headless: present
+  when: openjdk_version_8
