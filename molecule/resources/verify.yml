@@ -20,4 +20,4 @@
         that: >-
           check_openjdk_result.stdout
           ~ check_openjdk_result.stderr is search("build " ~ openjdk_version)
-      when: openjdk_version != "latest"
+      when: openjdk_version is defined and openjdk_version != "latest"

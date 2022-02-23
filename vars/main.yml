@@ -50,5 +50,7 @@ openjdk_check_version_exists: >-
                                     | list | length > 0) }}
 
 openjdk_version_8: >-
-  {{ openjdk_version is version("1.8.0", ">=")
-     and openjdk_version is version("1.9.0", "<") }}
+  {{ (openjdk_version != "latest"
+      and openjdk_version | string is version("1.8.0", ">=")
+      and openjdk_version | string is version("1.9.0", "<"))
+     | ternary(true, false) }}

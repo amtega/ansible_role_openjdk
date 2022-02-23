@@ -27,7 +27,7 @@
     - name: Set fact with JAVA_HOME pointing to default artifact
       set_fact:
         openjdk_java_home: >-
-          {{ openjdk_default_artifact.dest }}/jdk-
+          {{ openjdk_default_artifact.dest
              ~ "/jdk-"
              ~ openjdk_effective_version }}
       when: not openjdk_version_8 and openjdk_artifact is not defined
