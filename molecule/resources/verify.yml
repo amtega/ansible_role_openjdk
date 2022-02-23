@@ -1,0 +1,23 @@
+---
+
+- name: Verify
+  hosts: molecule_hosts
+  gather_facts: no
+  tasks:
+    - name: Gather java version
+      command: /usr/bin/java -version
+      changed_when: no
+      register: check_openjdk_result
+
+    - name: Assert OpenJDK is installed
+      assert:
+        that: >-
+          check_openjdk_result.stdout
+          ~ check_openjdk_result.stderr is search("OpenJDK Runtime Environment")
+
+    - name: Assert OpenJDK version is valid
+      assert:
+        that: >-
+          check_openjdk_result.stdout
+          ~ check_openjdk_result.stderr is search("build " ~ openjdk_version)
+      when: openjdk_version is defined and openjdk_version != "latest"

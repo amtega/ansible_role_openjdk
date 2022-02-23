@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.5.0] - 2022-02-23
+### Added
+- Added support for version 8. Related to ansible/main#267
+
 ## [1.4.1] - 2022-02-04
 ### Fixed
 - Fixed changelog.

@@ -54,6 +54,7 @@ provisioner:
     hosts:
       molecule_hosts:
         vars:
+          openjdk_version: 1.8.0
       molecule_hosts_fedora:
         vars:
           ansible_python_interpreter: /usr/bin/python3
