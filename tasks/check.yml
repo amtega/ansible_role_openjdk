@@ -1,5 +1,10 @@
 ---
 
+- name: Set fact with JAVA_HOME pointing to operating system package
+  set_fact:
+    openjdk_java_home: /usr/lib/jvm/jre-1.8.0-openjdk
+  when: openjdk_version_8
+
 - when: openjdk_artifact is undefined
   block:
     - name: Assert version to download is valid
@@ -19,11 +24,6 @@
           validate_certs: yes
       when: not openjdk_version_8
 
-    - name: Set fact with JAVA_HOME pointing to operating system package
-      set_fact:
-        openjdk_java_home: /usr/lib/jvm/jre-1.8.0-openjdk
-      when: openjdk_version_8
-
     - name: Set fact with JAVA_HOME pointing to default artifact
       set_fact:
         openjdk_java_home: >-
@@ -32,14 +32,14 @@
              ~ openjdk_effective_version }}
       when: not openjdk_version_8 and openjdk_artifact is not defined
 
-    - name: Set fact with JAVA_HOME pointing to artifact defined
-      set_fact:
-        openjdk_java_home: >-
-          {{ openjdk_artifact.dest }}/jdk-{{ openjdk_artifact_version }}
-      when: not openjdk_version_8 and openjdk_artifact is defined
-      vars:
-        openjdk_artifact_version: >-
-          {{ openjdk_artifact.file.split('-')[1].split('_')[0] }}
+- name: Set fact with JAVA_HOME pointing to artifact defined
+  set_fact:
+    openjdk_java_home: >-
+      {{ openjdk_artifact.dest }}/jdk-{{ openjdk_artifact_version }}
+  when: not openjdk_version_8 and openjdk_artifact is defined
+  vars:
+    openjdk_artifact_version: >-
+      {{ openjdk_artifact.file.split('-')[1].split('_')[0] }}
 
 - name: Check if OpenJDK version is already deployed
   stat:
