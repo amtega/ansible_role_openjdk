@@ -2,7 +2,7 @@
 
 - name: Set fact with JAVA_HOME pointing to operating system package
   set_fact:
-    openjdk_java_home: /usr/lib/jvm/jre-1.8.0-openjdk
+    openjdk_java_home: /usr/lib/jvm/java-1.8.0-openjdk
   when: openjdk_version_8
 
 - when: openjdk_artifact is undefined
