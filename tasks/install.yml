@@ -49,5 +49,5 @@
         packages_os:
           all:
             all:
-              java-1.8.0-openjdk-headless: present
+              java-1.8.0-openjdk-devel: present
   when: openjdk_version_8
