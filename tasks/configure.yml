@@ -23,4 +23,22 @@
       when:
         - openjdk_state == "absent"
         - openjdk_update_alternatives | bool
+
+    - name: Check kesytore
+      stat:
+        path: "{{ openjdk_java_home }}/lib/security/cacerts"
+      register: openjdk_java_keystore_result
+
+    - block:
+        - name: Remove factory keystore
+          file:
+            path: "{{ openjdk_java_home }}/lib/security/cacerts"
+            state: absent
+
+        - name: Setup system wide keystore
+          file:
+            src: /etc/pki/java/cacerts
+            dest: "{{ openjdk_java_home }}/lib/security/cacerts"
+            state: link
+      when: not openjdk_java_keystore_result.stat.islnk
   when: not openjdk_version_8
