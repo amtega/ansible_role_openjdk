@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.6.0] - 2022-03-25
+### Changed
+- Point to system wide keystore.
+
 ## [1.5.1] - 2022-03-18
 ### Fixed
 - Fixed missing variable openjdk_java_home.
