@@ -6,9 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.6.0] - 2022-03-25
+## [1.7.0] - 2022-03-25
 ### Changed
 - Point to system wide keystore.
+
+## [1.6.0] - 2022-03-24
+### Changed
+- Changed openjdk operating system package for version 8.
 
 ## [1.5.1] - 2022-03-18
 ### Fixed
