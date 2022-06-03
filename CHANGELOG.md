@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.8.0] - 2022-06-03
+### Added
+- Added new `openjdk_effective_version` fact. Related to ansible/playbooks/tomcat#130
+
+### Changed
+- Migrated tests to podman.
+
 ## [1.7.0] - 2022-03-25
 ### Changed
 - Point to system wide keystore.
