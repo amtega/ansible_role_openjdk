@@ -1,0 +1,9 @@
+{% if openjdk_artifact is undefined and not openjdk_version_8 %}
+{% if openjdk_version == "latest" %}
+{{ _openjdk_download_file.split("-")[1].split("_")[0] }}
+{% else %}
+{{ openjdk_version }}
+{% endif %}
+{% else %}
+{{ openjdk_version }}
+{% endif %}

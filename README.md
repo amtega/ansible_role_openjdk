@@ -10,6 +10,7 @@ The role setups the following facts:
 
 - `openjdk_java_home`: home path of the deployed openjdk java
 - `openjdk_java_default_artifact`: dict with the default artifact for downloading openjdk java. Only available when download artifact is not defined.
+- `openjdk_effective_version`: openjdk effective version (useful if you use `latest` for version)
 
 ## Example Playbook
 
