@@ -1,9 +1,30 @@
 ---
 
+- when: openjdk_artifact is undefined and not openjdk_version_8
+  block:
+    - name: Gather openjdk download url
+      set_fact:
+        _openjdk_download_url:  >-
+          {{ lookup("template", "download_url.j2") | trim }}
+
+    - name: Gather openjdk download info
+      set_fact:
+        _openjdk_download_host: >-
+          https://{{ _openjdk_download_url | urlsplit("hostname") }}
+        _openjdk_download_path: >-
+          {{ _openjdk_download_url | urlsplit("path") | dirname }}
+        _openjdk_download_file: >-
+          {{ _openjdk_download_url | urlsplit("path") | basename }}
+
 - name: Set fact with JAVA_HOME pointing to operating system package
   set_fact:
     openjdk_java_home: /usr/lib/jvm/java-1.8.0-openjdk
   when: openjdk_version_8
+
+- name: Setup Set fact with openjdk effective version
+  set_fact:
+    openjdk_effective_version: >-
+      {{ lookup("template", "effective_version.j2") | trim }}
 
 - when: openjdk_artifact is undefined
   block:
@@ -16,9 +37,9 @@
         openjdk_default_artifact:
           id: openjdk_bins
           type: https
-          host: "{{ openjdk_download_host }}"
-          path: "{{ openjdk_download_path }}"
-          file: "{{ openjdk_download_file }}"
+          host: "{{ _openjdk_download_host }}"
+          path: "{{ _openjdk_download_path }}"
+          file: "{{ _openjdk_download_file }}"
           dest: /opt
           timeout: 120
           validate_certs: yes

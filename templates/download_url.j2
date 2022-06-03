@@ -1,0 +1,8 @@
+{% set links = (openjdk_main_site_content
+                | regex_replace("<a", "\n")
+                | regex_replace("</a", "\n")).splitlines()
+                | select("search", openjdk_search_filter )
+                | list %}
+{% if links | length > 0 %}
+{{ (links | first).split('"')[1] }}
+{% endif %}

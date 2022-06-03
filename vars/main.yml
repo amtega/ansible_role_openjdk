@@ -14,29 +14,7 @@ openjdk_search_filter: >-
         | ternary("_linux-x64_bin.tar.gz",
                   "openjdk-" ~ openjdk_version + "_linux-x64_bin.tar.gz") }}
 
-openjdk_download_url:  >-
-  {{ ((openjdk_main_site_content
-      | regex_replace("<a", "\n")
-      | regex_replace("</a", "\n")).splitlines()
-      | select("search", openjdk_search_filter )
-      | list
-      | first).split('"')[1] }}
-
-openjdk_download_host: >-
-  https://{{ openjdk_download_url | urlsplit('hostname') }}
-
-openjdk_download_path: >-
-  {{ openjdk_download_url | urlsplit('path') | dirname }}
-
-openjdk_download_file: >-
-  {{ openjdk_download_url | urlsplit('path') | basename }}
-
 # Versioning variables
-
-openjdk_effective_version: >-
-  {{ (openjdk_version == "latest")
-     | ternary(openjdk_download_file.split('-')[1].split('_')[0],
-               openjdk_version) }}
 
 openjdk_check_version_exists: >-
   {{ (openjdk_version == 'latest' )
