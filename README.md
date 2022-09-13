@@ -1,6 +1,6 @@
 # Amtega openjdk role
 
-This is an [Ansible](http://www.ansible.com) role to deploy OpenJDK Runtime Environment.
+This is an [Ansible](http://www.ansible.com) role to deploy openjdk Runtime Environment.
 
 ## Role Variables
 
@@ -19,7 +19,7 @@ This is an example playbook:
 ``` yaml
 ---
 - hosts: localhost
-  roles:  
+  roles:
     - amtega.openjdk
 ```
 
