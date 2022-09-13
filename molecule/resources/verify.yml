@@ -5,18 +5,18 @@
   gather_facts: no
   tasks:
     - name: Gather java version
-      command: /usr/bin/java -version
+      ansible.builtin.command: /usr/bin/java -version
       changed_when: no
       register: check_openjdk_result
 
-    - name: Assert OpenJDK is installed
-      assert:
+    - name: Assert openjdk is installed
+      ansible.builtin.assert:
         that: >-
           check_openjdk_result.stdout
-          ~ check_openjdk_result.stderr is search("OpenJDK Runtime Environment")
+          ~ check_openjdk_result.stderr is search("openjdk Runtime Environment")
 
-    - name: Assert OpenJDK version is valid
-      assert:
+    - name: Assert openjdk version is valid
+      ansible.builtin.assert:
         that: >-
           check_openjdk_result.stdout
           ~ check_openjdk_result.stderr is search("build " ~ openjdk_version)

@@ -1,13 +1,14 @@
 ---
 
-- block:
-    - name: Remove OpenJDK from system
-      file:
+- name: Uninstall openjdk artifact
+  block:
+    - name: Remove openjdk from system
+      ansible.builtin.file:
         path: "{{ openjdk_java_home }}"
         state: absent
 
-    - name: Remove OpenJDK artifact facts
-      include_role:
+    - name: Remove openjdk artifact facts
+      ansible.builtin.include_role:
         name: amtega.artifact
       vars:
         override:
@@ -18,9 +19,10 @@
              | combine(override) }}
   when: not openjdk_version_8
 
-- block:
+- name: Uninstall openjdk operating system package
+  block:
     - name: Uninstall operating system package
-      include_role:
+      ansible.builtin.include_role:
         name: amtega.packages
       vars:
         packages_os:

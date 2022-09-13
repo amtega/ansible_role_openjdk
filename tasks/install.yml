@@ -1,8 +1,9 @@
 ---
 
-- block:
-    - name: Download and unarchive OpenJDK binaries
-      include_role:
+- name: Install openjdk from artifact
+  block:
+    - name: Download and unarchive openjdk binaries
+      ansible.builtin.include_role:
         name: amtega.artifact
       when: openjdk_state == 'present'
       vars:
@@ -19,7 +20,7 @@
              | combine(override) }}
 
     - name: Setup permissions
-      shell: >-
+      ansible.builtin.shell: >-
         find {{ openjdk_java_home }}
         -type d
         -exec chmod -v {{ openjdk_directory_mode }} \{} \; ;
@@ -41,9 +42,10 @@
         LANGUAGE: en_US
   when: not openjdk_version_8
 
-- block:
+- name: Install openjdk from operating system package
+  block:
     - name: Setup operating system package
-      include_role:
+      ansible.builtin.include_role:
         name: amtega.packages
       vars:
         packages_os:
