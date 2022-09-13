@@ -1,16 +1,15 @@
 ---
 
-# Role tasks
+- name: Setup openjdk
+  block:
+    - ansible.builtin.include_tasks: check.yml
 
-- block:
-    - include_tasks: check.yml    
-
-    - include_tasks: install.yml
+    - ansible.builtin.include_tasks: install.yml
       when: openjdk_state == "present"
 
-    - include_tasks: configure.yml
+    - ansible.builtin.include_tasks: configure.yml
 
-    - include_tasks: uninstall.yml
+    - ansible.builtin.include_tasks: uninstall.yml
       when: openjdk_state == "absent"
   tags:
     - role::openjdk

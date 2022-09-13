@@ -1,7 +1,8 @@
 ---
 
-- block:
-    - name: Setup alternatives to OpenJDK java
+- name: Configure openjdk
+  block:
+    - name: Setup alternatives to openjdk java
       alternatives:
         name: "{{ item }}"
         link: "/usr/bin/{{ item }}"
@@ -14,7 +15,7 @@
         - openjdk_update_alternatives | bool
 
     - name: Remove symlinks created by alternatives module
-      file:
+      ansible.builtin.file:
         path: "/usr/bin/{{ item }}"
         state: absent
       loop: "{{ openjdk_alternatives }}"
@@ -25,18 +26,19 @@
         - openjdk_update_alternatives | bool
 
     - name: Check kesytore
-      stat:
+      ansible.builtin.stat:
         path: "{{ openjdk_java_home }}/lib/security/cacerts"
       register: openjdk_java_keystore_result
 
-    - block:
+    - name: Configure openjdk keystore
+      block:
         - name: Remove factory keystore
-          file:
+          ansible.builtin.file:
             path: "{{ openjdk_java_home }}/lib/security/cacerts"
             state: absent
 
         - name: Setup system wide keystore
-          file:
+          ansible.builtin.file:
             src: /etc/pki/java/cacerts
             dest: "{{ openjdk_java_home }}/lib/security/cacerts"
             state: link
